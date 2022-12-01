@@ -32,8 +32,8 @@ public class RubyController : MonoBehaviour
     {
 
         Vector2 position = rigidbody2D.position;
-        position.x = position.x + 3.0f * horizontal * Time.deltaTime;
-        position.y = position.y + 3.0f * vertical * Time.deltaTime;
+        position.x = position.x + speed * horizontal * Time.deltaTime;
+        position.y = position.y + speed * vertical * Time.deltaTime;
 
         rigidbody2D.MovePosition(position);
     }
