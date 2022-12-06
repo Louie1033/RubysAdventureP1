@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3320581647296629133}
   - component: {fileID: 3320581647296629134}
   - component: {fileID: 4525705678016866189}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slow Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
