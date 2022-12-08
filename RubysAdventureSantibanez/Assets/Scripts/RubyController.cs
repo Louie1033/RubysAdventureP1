@@ -16,7 +16,7 @@ public class RubyController : MonoBehaviour
     bool isInvincible;
     float invincibleTimer;
 
-    Rigidbody2D rigidbody2D;
+    Rigidbody2D rigidbody2d;
     float horizontal;
     float vertical;
 
@@ -29,7 +29,7 @@ public class RubyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         
         currentHealth = maxHealth;        
@@ -38,11 +38,11 @@ public class RubyController : MonoBehaviour
     void FixedUpdate()
     {
 
-        Vector2 position = rigidbody2D.position;
+        Vector2 position = GetComponent<Rigidbody2D>().position;
         position.x = position.x + speed * horizontal * Time.deltaTime;
         position.y = position.y + speed * vertical * Time.deltaTime;
 
-        rigidbody2D.MovePosition(position);
+        GetComponent<Rigidbody2D>().MovePosition(position);
     }
 
 
@@ -75,6 +75,18 @@ public class RubyController : MonoBehaviour
             Launch();
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            if (hit.collider != null)
+            {
+                NonPlayerChacter character = hit.collider.GetComponent<NonPlayerChacter>();
+                if (character != null)
+                {
+                    character.DisplayDialog();
+                }
+            }
+        }
     }
     public void ChangeHealth(int amount)
     {
@@ -86,16 +98,18 @@ public class RubyController : MonoBehaviour
 
             isInvincible = true;
             invincibleTimer = timeInvincible;
-            
+
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
+
+        UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
     void Launch()
     {
-        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2D.position + Vector2.up * 0.5f, Quaternion.identity);
+        GameObject projectileObject = Instantiate(projectilePrefab, GetComponent<Rigidbody2D>().position + Vector2.up * 0.5f, Quaternion.identity);
 
         Projectile projectile = projectileObject.GetComponent<Projectile>();
         projectile.Launch(lookDirection, 300);
