@@ -12,6 +12,8 @@ public class RubyController : MonoBehaviour
     public int health { get { return currentHealth; }}
     int currentHealth;
 
+    public AudioClip throwSound;
+    public AudioClip hitSound;
 
     public float timeInvicible = 2.0f;
     bool isInvincible;
@@ -104,7 +106,7 @@ public class RubyController : MonoBehaviour
 
             animator.SetTrigger("Hit");
 
-            
+            PlaySound(hitSound);
 
         }
 
@@ -123,7 +125,7 @@ public class RubyController : MonoBehaviour
 
         animator.SetTrigger("Launch");
 
-        
+        PlaySound(throwSound);
     }
     
    public void PlaySound(AudioClip clip)
